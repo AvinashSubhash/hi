@@ -1,4 +1,5 @@
 #include<stdio.h>
+#include<stdlib.h>
 #define INT 5
 #define CHAR 6
 #define STRING 7
@@ -18,11 +19,6 @@ struct constData {
     void* data;
 };
 
-struct ParenData {
-    int tokenName;
-    char bracket;
-};
-
 struct OpData {
     int tokenName;
     char op;
@@ -31,18 +27,38 @@ struct OpData {
 void displayStruct(void* obj[])
 {
     int* res = obj[0]; 
-    printf("%d\n",*res);
-    if(*res==8)
+    //printf("%d\n",*res);
+    switch(*res)
     {
+        case CONSTANT:         
         struct constData *obj1 = obj[1];
         printf("Token Number: %d\n",obj1->tokenName);
         printf("Datatype: %d\n",obj1->datatype);
         int* value = obj1->data;
         printf("Data: %d\n",*value);
+        break;
+
+        case INT:
+        struct varData *obj2 = obj[1];
+        printf("Token Number: %d\n",obj2->tokenName);
+        printf("Variable Name: %s\n",obj2->variableName);
+        int* varvalue = obj2->dataValue;
+        printf("Value: %d\n",*varvalue);
+        break;
+
+        default:
+        printf("Error state . .\n"); 
+    }
+    
+    if(*res==8)
+    {
+
     }
 }
+
+
 // Testing
-int main() {
+/*int main() {
     struct constData obj1;
     obj1.tokenName=8;
     obj1.datatype = 5;
@@ -54,4 +70,4 @@ int main() {
     send[0]=&obj1.tokenName;
     send[1]=&obj1;
     displayStruct(send);
-}
+}*/
