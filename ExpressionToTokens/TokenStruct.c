@@ -16,37 +16,37 @@ struct varData {
 };
 
 
-void displayStruct(struct varData* obj)       //Incomplete changes - modified all structure to single structure.
+void displayStruct(struct varData *obj)       //Incomplete changes - modified all structure to single structure.
 {
-    int* res = obj[0]; 
+    //struct varData *obj = obx;
+    int res = obj->tokenName; 
     //printf("%d\n",*res);
-    struct varData *obj1 = obj[2];
-    switch(*res)
+    switch(res)
     {
-        case CONSTANT:         
-        struct constData *obj1 = obj[1];
-        printf("Token Number: %d\n",obj1->tokenName);
-        printf("Datatype: %d\n",obj1->datatype);
-        int* value = obj1->data;
+        case CONSTANT:        
+        printf("\nToken Number: %d\n",obj->tokenName);
+        printf("Datatype: %d\n",obj->datatype);
+        int* value = obj->dataValue;
         printf("Data: %d\n",*value);
         break;
 
         case INT:
-        struct varData *obj2 = obj[1];
-        printf("Token Number: %d\n",obj2->tokenName);
-        printf("Variable Name: %s\n",obj2->variableName);
-        int* varvalue = obj2->dataValue;
+        printf("Token Number: %d\n",obj->tokenName);
+        printf("Variable Name: %s\n",obj->variableName);
+        int* varvalue = obj->dataValue;
         printf("Value: %d\n",*varvalue);
+        break;
+
+        case OPERATOR:
+        printf("Token Number: %d\n",obj->tokenName);
+        char* charvalue = obj->dataValue;
+        printf("Value: %c\n",*charvalue);
         break;
 
         default:
         printf("Error state . .\n"); 
     }
     
-    if(*res==8)
-    {
-
-    }
 }
 
 
