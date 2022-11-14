@@ -750,38 +750,44 @@ YY_RULE_SETUP
 #line 27 "ExprTokens.l"
 {
                  char* data = yytext;
-                 char p;
-                 char* t = &p;
-                 printf("%p %p %p %p",*data,*yytext,&p,*t);  
+                 //printf("%p %p",&data,&yytext); Both the variables have different address.
+                 struct varData obj1;
+                 obj1.tokenName = INT;
+                 obj1.variableName = data;
+                 obj1.dataValue = &obj1.tokenName;
+                 void* send[2];
+                 send[0] = &obj1.tokenName;
+                 send[1] = &obj1;
+                 displayStruct(send);
 
                 }
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 34 "ExprTokens.l"
-{printf("OPERATOR-(%s) ",yytext);}
+#line 40 "ExprTokens.l"
+{printf("OPERATOR-(%s) \n",yytext);}
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 35 "ExprTokens.l"
-{printf("BRACKET-OPEN-(%s) ",yytext);}
+#line 41 "ExprTokens.l"
+{printf("BRACKET-OPEN-(%s) \n",yytext);}
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 36 "ExprTokens.l"
-{printf("BRACKET-CLOSE-(%s) ",yytext);}
+#line 42 "ExprTokens.l"
+{printf("BRACKET-CLOSE-(%s) \n",yytext);}
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 37 "ExprTokens.l"
+#line 43 "ExprTokens.l"
 {}
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 38 "ExprTokens.l"
+#line 44 "ExprTokens.l"
 ECHO;
 	YY_BREAK
-#line 784 "lex.yy.c"
+#line 790 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1786,7 +1792,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 38 "ExprTokens.l"
+#line 44 "ExprTokens.l"
 
 
 int main(void) {

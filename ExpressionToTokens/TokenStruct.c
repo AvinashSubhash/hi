@@ -6,28 +6,21 @@
 #define CONSTANT 8
 #define BRACKET 9
 #define OPERATOR 4
+#define VAR 3
 
 struct varData {
     int tokenName;
+    int datatype;
     char* variableName;
     void* dataValue;
 };
 
-struct constData {
-    int tokenName;
-    int datatype;
-    void* data;
-};
 
-struct OpData {
-    int tokenName;
-    char op;
-};
-
-void displayStruct(void* obj[])
+void displayStruct(struct varData* obj)       //Incomplete changes - modified all structure to single structure.
 {
     int* res = obj[0]; 
     //printf("%d\n",*res);
+    struct varData *obj1 = obj[2];
     switch(*res)
     {
         case CONSTANT:         

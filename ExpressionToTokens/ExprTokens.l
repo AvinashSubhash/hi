@@ -26,14 +26,20 @@ VARIABLE_NAME [a-zA-Z]([a-zA-Z]|[0-9]|_)*
 
 {VARIABLE_NAME} {
                  char* data = yytext;
-                 char p;
-                 char* t = &p;
-                 printf("%p %p %p %p",*data,*yytext,&p,*t);  
+                 //printf("%p %p",&data,&yytext); Both the variables have different address.
+                 struct varData obj1;
+                 obj1.tokenName = INT;
+                 obj1.variableName = data;
+                 obj1.dataValue = &obj1.tokenName;
+                 void* send[2];
+                 send[0] = &obj1.tokenName;
+                 send[1] = &obj1;
+                 displayStruct(send);
 
                 }
-{OPERATOR} {printf("OPERATOR-(%s) ",yytext);}
-{BRACKETS_OPEN} {printf("BRACKET-OPEN-(%s) ",yytext);}
-{BRACKETS_CLOSE} {printf("BRACKET-CLOSE-(%s) ",yytext);}
+{OPERATOR} {printf("OPERATOR-(%s) \n",yytext);}
+{BRACKETS_OPEN} {printf("BRACKET-OPEN-(%s) \n",yytext);}
+{BRACKETS_CLOSE} {printf("BRACKET-CLOSE-(%s) \n",yytext);}
 " " {}
 %%
 
