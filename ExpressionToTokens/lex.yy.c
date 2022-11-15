@@ -445,9 +445,14 @@ int yy_flex_debug = 0;
 char *yytext;
 #line 1 "ExprTokens.l"
 #line 7 "ExprTokens.l"
+    #ifndef YYSTYPE
+    #define YYSTYPE struct varData
+    #endif
     #include "TokenStruct.c"
-#line 449 "lex.yy.c"
-#line 450 "lex.yy.c"
+    #include "y.tab.h"
+    extern struct varData yylval;
+#line 454 "lex.yy.c"
+#line 455 "lex.yy.c"
 
 #define INITIAL 0
 
@@ -664,9 +669,9 @@ YY_DECL
 		}
 
 	{
-#line 10 "ExprTokens.l"
+#line 15 "ExprTokens.l"
 
-#line 669 "lex.yy.c"
+#line 674 "lex.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -725,7 +730,7 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 11 "ExprTokens.l"
+#line 16 "ExprTokens.l"
 {
                 int data = atoi(yytext);
                 //printf("%d",data);
@@ -736,12 +741,14 @@ YY_RULE_SETUP
                 obj1.datatype = INT;
                 //printf("%d",data);
                 obj1.dataValue = &data;
-                displayStruct(&obj1);
+                //displayStruct(&obj1);
+                yylval = obj1;
+                return numToken;
           }
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 24 "ExprTokens.l"
+#line 31 "ExprTokens.l"
 {
                  char* data = yytext;
                  //printf("%p %p",&data,&yytext); Both the variables have different address.
@@ -749,31 +756,40 @@ YY_RULE_SETUP
                  obj1.tokenName = INT;
                  obj1.variableName = data;
                  obj1.dataValue = &obj1.tokenName;
-                 displayStruct(&obj1);
+                 //displayStruct(&obj1);
+                yylval = obj1;
+                return dump; // Dummy return token (variable not included now)
                 }
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 33 "ExprTokens.l"
+#line 42 "ExprTokens.l"
 {
                 char* data = yytext;
                 struct varData obj1;
                 obj1.tokenName = 4;
                 obj1.dataValue = data;
-                displayStruct(&obj1);
+                //displayStruct(&obj1);
+                yylval = obj1;
+                if(*data=='+')
+                return pToken;
+                else if(*data=='-')
+                return mToken;
+                else
+                return dump;
            }
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 40 "ExprTokens.l"
+#line 56 "ExprTokens.l"
 {}
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 41 "ExprTokens.l"
+#line 57 "ExprTokens.l"
 ECHO;
 	YY_BREAK
-#line 776 "lex.yy.c"
+#line 792 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1778,10 +1794,6 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 41 "ExprTokens.l"
+#line 57 "ExprTokens.l"
 
 
-int main(void) {
-    yylex();
-    return 0;
-}

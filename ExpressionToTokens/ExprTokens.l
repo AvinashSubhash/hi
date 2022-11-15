@@ -4,6 +4,9 @@ BRACKETS_OPEN ("{"|"("|"[")
 BRACKETS_CLOSE ("}"|")"|"]")
 VARIABLE_NAME [a-zA-Z]([a-zA-Z]|[0-9]|_)*
 %{
+    #ifndef YYSTYPE
+    #define YYSTYPE struct varData
+    #endif
     #include "TokenStruct.c"
     #include "y.tab.h"
     extern struct varData yylval;
@@ -34,7 +37,7 @@ VARIABLE_NAME [a-zA-Z]([a-zA-Z]|[0-9]|_)*
                  obj1.dataValue = &obj1.tokenName;
                  //displayStruct(&obj1);
                 yylval = obj1;
-                return structToken;
+                return dump; // Dummy return token (variable not included now)
                 }
 {OPERATOR} {
                 char* data = yytext;
@@ -43,12 +46,26 @@ VARIABLE_NAME [a-zA-Z]([a-zA-Z]|[0-9]|_)*
                 obj1.dataValue = data;
                 //displayStruct(&obj1);
                 yylval = obj1;
-                return opToken;
+                if(*data=='+')
+                {
+                    obj1.datatype = PLUS;
+                    return pToken;
+                }
+                else if(*data=='-')
+                {
+                    obj1.datatype = MINUS;
+                    return mToken;
+                }
+                else if(*data=='*')
+                {
+                    obj1.datatype = MULT;
+                    return muToken;
+                }
+                else if(*data=='/')
+                {
+                    obj1.datatype = DIV;
+                    return dToken;
+                }
            }
 " " {}
 %%
-
-int main(void) {
-    yylex();
-    return 0;
-}

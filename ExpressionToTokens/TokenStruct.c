@@ -7,6 +7,10 @@
 #define BRACKET 9
 #define OPERATOR 4
 #define VAR 3
+#define PLUS 10
+#define MINUS 11
+#define MULT 12
+#define DIV 13
 
 struct varData {
     int tokenName;
@@ -50,17 +54,3 @@ void displayStruct(struct varData *obj)       //Incomplete changes - modified al
 }
 
 
-// Testing
-/*int main() {
-    struct constData obj1;
-    obj1.tokenName=8;
-    obj1.datatype = 5;
-    int data;
-    printf("Enter the Integer:");
-    scanf("%d",&data);
-    obj1.data = &data;
-    void* send[2];
-    send[0]=&obj1.tokenName;
-    send[1]=&obj1;
-    displayStruct(send);
-}*/
