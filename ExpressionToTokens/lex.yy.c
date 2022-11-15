@@ -772,24 +772,38 @@ YY_RULE_SETUP
                 //displayStruct(&obj1);
                 yylval = obj1;
                 if(*data=='+')
-                return pToken;
+                {
+                    obj1.datatype = PLUS;
+                    return pToken;
+                }
                 else if(*data=='-')
-                return mToken;
-                else
-                return dump;
+                {
+                    obj1.datatype = MINUS;
+                    return mToken;
+                }
+                else if(*data=='*')
+                {
+                    obj1.datatype = MULT;
+                    return muToken;
+                }
+                else if(*data=='/')
+                {
+                    obj1.datatype = DIV;
+                    return dToken;
+                }
            }
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 56 "ExprTokens.l"
+#line 70 "ExprTokens.l"
 {}
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 57 "ExprTokens.l"
+#line 71 "ExprTokens.l"
 ECHO;
 	YY_BREAK
-#line 792 "lex.yy.c"
+#line 806 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1794,6 +1808,6 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 57 "ExprTokens.l"
+#line 71 "ExprTokens.l"
 
 

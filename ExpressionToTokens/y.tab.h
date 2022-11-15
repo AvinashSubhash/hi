@@ -57,7 +57,10 @@ extern int yydebug;
     numToken = 258,                /* numToken  */
     pToken = 259,                  /* pToken  */
     mToken = 260,                  /* mToken  */
-    dump = 261                     /* dump  */
+    muToken = 261,                 /* muToken  */
+    dToken = 262,                  /* dToken  */
+    dump = 263,                    /* dump  */
+    finToken = 264                 /* finToken  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -69,7 +72,10 @@ extern int yydebug;
 #define numToken 258
 #define pToken 259
 #define mToken 260
-#define dump 261
+#define muToken 261
+#define dToken 262
+#define dump 263
+#define finToken 264
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
@@ -85,7 +91,7 @@ union YYSTYPE
     void* dataValue;
         } arg;
 
-#line 89 "y.tab.h"
+#line 95 "y.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;
