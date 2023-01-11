@@ -1,11 +1,15 @@
 %{
     #include<stdio.h>
     #include<stdlib.h>
+    #include<limits.h>
     extern FILE *yyin;
+    int yylex();
+    int yyerror();
 %}
 
 %union {
     int integer;
+    char endVal;
     struct varData {
     int tokenName;
     int datatype;
@@ -21,9 +25,10 @@
 %token <arg> dToken
 %token dump
 %token <arg> finToken
+%token <arg> endToken
 
 %%
-S:E {printf("Result is %d\n",$<integer>$);}
+S:E Z {printf("Result is %d\n",$<integer>1);}
 ;
 E:E P T {$<integer>$=$<integer>1+$<integer>3;}
 |E K T {$<integer>$=$<integer>1-$<integer>3;}
@@ -49,19 +54,33 @@ D:dToken {int* data = $<arg.dataValue>1;
 F:numToken {int* data = $<arg.dataValue>1;    
             $<integer>$=*data;}
 ;
+Z:endToken {char* data = $<arg.dataValue>1;
+            $<endVal>$=*data;}
 %%
 
 int main()
 {
-    yyin = fopen("code_file.hi","r");
-    printf("Enter an expression\n");
-    yyparse();
-    printf("Valid Expression\n");
-    fclose(yyin);
+    FILE *mainfile;
+    char line[1024];
+    mainfile = fopen("code_file.hi","r");
+    while (fgets(line,1024,mainfile))
+    {
+        FILE *fp;
+        fp = fopen("temp.txt","w+");
+        fputs(line,fp);
+        fclose(fp);
+        yyin = fopen("temp.txt","r");
+        //printf("Enter an expression\n");
+        yyparse();
+        printf("Valid Expression\n");
+        fclose(yyin);
+    }
     return 0;
 }
 
-yyerror(char *s) {
+int yyerror(char *s) {
     printf("Invalid expression\n");
+    printf("Error: %s\n",s);
     exit(0);
+    return 0;
 }

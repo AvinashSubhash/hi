@@ -3,6 +3,7 @@ OPERATOR ("+"|"-"|"*"|"/")
 BRACKETS_OPEN ("{"|"("|"[")
 BRACKETS_CLOSE ("}"|")"|"]")
 VARIABLE_NAME [a-zA-Z]([a-zA-Z]|[0-9]|_)*
+END ";"
 %{
     #ifndef YYSTYPE
     #define YYSTYPE struct varData
@@ -10,10 +11,12 @@ VARIABLE_NAME [a-zA-Z]([a-zA-Z]|[0-9]|_)*
     #include "TokenStruct.c"
     #include "y.tab.h"
     extern struct varData yylval;
+    int point=0;
 %}
 
 %%
 {INTEGER} {
+                //printf("%d\n",point++);
                 int data = atoi(yytext);
                 //printf("%d",data);
                 struct varData obj1;
@@ -29,6 +32,7 @@ VARIABLE_NAME [a-zA-Z]([a-zA-Z]|[0-9]|_)*
           }
 
 {VARIABLE_NAME} {
+                 //printf("%d\n",point++);
                  char* data = yytext;
                  //printf("%p %p",&data,&yytext); Both the variables have different address.
                  struct varData obj1;
@@ -40,6 +44,7 @@ VARIABLE_NAME [a-zA-Z]([a-zA-Z]|[0-9]|_)*
                 return dump; // Dummy return token (variable not included now)
                 }
 {OPERATOR} {
+                //printf("%d\n",point++);
                 char* data = yytext;
                 struct varData obj1;
                 obj1.tokenName = 4;
@@ -67,5 +72,15 @@ VARIABLE_NAME [a-zA-Z]([a-zA-Z]|[0-9]|_)*
                     return dToken;
                 }
            }
-" " {}
+{END} {
+        //printf("%d\n",point++);
+        char* data = yytext;
+        struct varData obj1;
+        obj1.tokenName = 1;
+        obj1.dataValue = data;
+        yylval = obj1;
+        return endToken;
+        }
+"\n" {  //printf("%d\n",point++);
+    }
 %%
