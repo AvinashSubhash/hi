@@ -60,8 +60,10 @@ extern int yydebug;
     muToken = 261,                 /* muToken  */
     dToken = 262,                  /* dToken  */
     dump = 263,                    /* dump  */
-    finToken = 264,                /* finToken  */
-    endToken = 265                 /* endToken  */
+    endToken = 264,                /* endToken  */
+    stringToken = 265,             /* stringToken  */
+    seperateToken = 266,           /* seperateToken  */
+    outToken = 267                 /* outToken  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -76,17 +78,18 @@ extern int yydebug;
 #define muToken 261
 #define dToken 262
 #define dump 263
-#define finToken 264
-#define endToken 265
+#define endToken 264
+#define stringToken 265
+#define seperateToken 266
+#define outToken 267
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 10 "parser.y"
+#line 12 "parser.y"
 
     int integer;
-    char endVal;
     struct varData {
     int tokenName;
     int datatype;
@@ -94,7 +97,7 @@ union YYSTYPE
     void* dataValue;
         } arg;
 
-#line 98 "y.tab.h"
+#line 101 "y.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

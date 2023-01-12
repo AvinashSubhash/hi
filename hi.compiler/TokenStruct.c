@@ -12,6 +12,9 @@
 #define MULT 12
 #define DIV 13
 #define END 1
+#define OUTPUT 14
+#define INPUT 15
+
 
 struct varData {
     int tokenName;
